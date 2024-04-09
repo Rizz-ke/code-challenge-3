@@ -1,5 +1,5 @@
 body {
-  background-color: #ebebeb;
+  background-color:burlywood;
 }
 
 .heading {
@@ -11,7 +11,7 @@ body {
 .title {
   background-color: #333333;
   padding: 5px;
-  color: white;
+  color: beige;
 }
 
 #runtime {
@@ -22,19 +22,22 @@ body {
 
 .content {
   color: #3e8fde;
+
 }
 
 #subtitle {
-  color: white;
+  color:wheat;
   margin-left: 55px;
 }
 
 #showing {
   margin-left: 20px;
+  
 }
 
 #films li::before {
   content: "";
+  
 }
 
 .film {
@@ -52,4 +55,8 @@ img {
 
 #film-info {
   padding-bottom: 15px;
+  color: black;
 }
+
+
+
