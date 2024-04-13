@@ -43,14 +43,20 @@ function showMovie(movie) {
   filmList.appendChild(li);
 }
 
-
 function addClickEvent() {
   const listItems = document.querySelectorAll("#films li");
 
   listItems.forEach((listItem, index) => {
     listItem.addEventListener("click", () => {
-        // fetching individual movie details on click
-      fetchMovieData(index);
+      // Fetch individual movie details based on index
+      fetchMovieData(index)
+        .then((movie) => {
+          // Set up movie details on UI
+          setUpMovieDetails(movie);
+        })
+        .catch((error) => {
+          console.error("Error fetching movie data:", error);
+        });
     });
   });
 }
@@ -60,30 +66,29 @@ async function fetchMovieData(index) {
     // fetching movie data based on index
     const response = await fetch(`${endpointsURl}/${index}`);
     const movie = await response.json();
-// set up movie details on UI
-    setUpMovieDetails(movie);
+    return movie;
   } catch (error) {
-    console.error("Error fetching movie data:", error);
+    throw new Error("Error fetching movie data:", error);
   }
 }
 
 function setUpMovieDetails(movie) {
-    // setting up poster image source
+  // setting up poster image source
   const preview = document.getElementById("poster");
   preview.src = movie.poster;
-// setting up movie title
+  // setting up movie title
   const movieTitle = document.getElementById("title");
   movieTitle.textContent = movie.title;
-// setting up movie runtime
+  // setting up movie runtime
   const movieTime = document.getElementById("runtime");
   movieTime.textContent = `${movie.runtime} minutes`;
-// setting up movie description
+  // setting up movie description
   const movieDescription = document.getElementById("film-info");
   movieDescription.textContent = movie.description;
-// setting up movie showtime
+  // setting up movie showtime
   const showTime = document.getElementById("showtime");
   showTime.textContent = movie.showtime;
-// calculating available tickets 
+  // calculating available tickets
   const tickets = document.getElementById("ticket-num");
   tickets.textContent = movie.capacity - movie.tickets_sold;
 }
