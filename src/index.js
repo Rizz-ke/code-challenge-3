@@ -26,6 +26,9 @@ function showMovie(movie) {
   const li = document.createElement("li");
   li.style.cursor = "pointer";
 
+  // Check if the movie is sold out
+  const isSoldOut = movie.capacity - movie.tickets_sold <= 0;
+
   // Create a span element for the movie title
   const titleSpan = document.createElement("span");
   titleSpan.textContent = movie.title.toUpperCase();
@@ -35,12 +38,37 @@ function showMovie(movie) {
   deleteButton.textContent = "Delete";
   deleteButton.classList.add("delete-button");
 
+  // Add click event listener to delete button
+  deleteButton.addEventListener("click", () => {
+    deleteFilm(movie.id);
+    li.remove(); // Remove the film from the list on the client side
+  });
+
   // Append the title span and delete button to the list item
   li.appendChild(titleSpan);
   li.appendChild(deleteButton);
 
+  // Add sold-out class if the movie is sold out
+  if (isSoldOut) {
+    li.classList.add("sold-out");
+  }
+
   // Append the list item to the film list
   filmList.appendChild(li);
+}
+
+function deleteFilm(filmId) {
+  fetch(`${endpointsURl}/${filmId}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to delete film.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error deleting film:", error);
+    });
 }
 
 function addClickEvent() {
@@ -91,6 +119,17 @@ function setUpMovieDetails(movie) {
   // calculating available tickets
   const tickets = document.getElementById("ticket-num");
   tickets.textContent = movie.capacity - movie.tickets_sold;
+
+  // Check if the movie is sold out
+  const isSoldOut = movie.capacity - movie.tickets_sold <= 0;
+
+  // Update button text to "Sold Out" if the movie is sold out
+  const btn = document.getElementById("buy-ticket");
+  if (isSoldOut) {
+    btn.textContent = "Sold Out";
+  } else {
+    btn.textContent = "Buy Ticket";
+  }
 }
 
 const btn = document.getElementById("buy-ticket");
