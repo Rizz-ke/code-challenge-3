@@ -25,10 +25,24 @@ function showMovie(movie) {
   const filmList = document.getElementById("films");
   const li = document.createElement("li");
   li.style.cursor = "pointer";
-  // showing movie title in uppercase
-  li.textContent = movie.title.toUpperCase();
+
+  // Create a span element for the movie title
+  const titleSpan = document.createElement("span");
+  titleSpan.textContent = movie.title.toUpperCase();
+
+  // Create a delete button
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  deleteButton.classList.add("delete-button");
+
+  // Append the title span and delete button to the list item
+  li.appendChild(titleSpan);
+  li.appendChild(deleteButton);
+
+  // Append the list item to the film list
   filmList.appendChild(li);
 }
+
 
 function addClickEvent() {
   const listItems = document.querySelectorAll("#films li");
