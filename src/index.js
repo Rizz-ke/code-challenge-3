@@ -59,7 +59,7 @@ function showMovie(movie) {
 
 function deleteFilm(filmId) {
   fetch(`${endpointsURl}/${filmId}`, {
-    method: "DELETE",
+    method: "DELETE"
   })
     .then((response) => {
       if (!response.ok) {
